@@ -38,8 +38,8 @@ function App() {
         formData.append("image", image);
 
         try {
-            // Using the proxy setup in vite.config.js to call local server
-            const res = await axios.post("/api/remove-bg", formData, { 
+            const apiUrl = import.meta.env.VITE_API_URL || "";
+            const res = await axios.post(`${apiUrl}/api/remove-bg`, formData, { 
                 responseType: "blob",
                 timeout: 30000 // 30 second timeout as remove.bg can sometimes take a moment
             });

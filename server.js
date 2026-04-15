@@ -17,8 +17,8 @@ app.post("/api/remove-bg", upload.single("image"), async (req, res) => {
     try {
         const formData = new FormData();
         formData.append("image_file", req.file.buffer, {
-             filename: req.file.originalname,
-             contentType: req.file.mimetype,
+            filename: req.file.originalname,
+            contentType: req.file.mimetype,
         });
         formData.append("size", "auto");
 
@@ -39,13 +39,17 @@ app.post("/api/remove-bg", upload.single("image"), async (req, res) => {
     } catch (error) {
         console.error("Error from remove.bg API:", error.response?.data?.toString() || error.message);
         if (error.response?.status === 402) {
-             res.status(402).json({ message: "Remove.bg API credits exceeded." });
+            res.status(402).json({ message: "Remove.bg API credits exceeded." });
         } else if (error.response?.status === 403) {
-             res.status(403).json({ message: "Invalid API key." });
+            res.status(403).json({ message: "Invalid API key." });
         } else {
-             res.status(500).json({ message: "Error processing the image background removal." });
+            res.status(500).json({ message: "Error processing the image background removal." });
         }
     }
 });
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+app.get("/", (req, res) => {
+    res.send("API running 🚀");
+});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
